@@ -6,6 +6,14 @@ import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 
+import { Catalogo } from './catalogos/entities/catalogo.entity.js';
+import { CatalogoDetalle } from './catalogos/entities/catalogo_detalle.entity.js';
+import { Usuario } from './usuarios/usuario.entity.js';
+import { Catedratico } from './catedraticos/catedratico.entity.js';
+import { Estudiante } from './estudiantes/estudiante.entity.js';
+import { Curso } from './cursos/curso.entity.js';
+import { CursoAsignado } from './asignaciones/curso-asignado.entity.js';
+
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -36,8 +44,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
         options: {
           trustServerCertificate: true,
         },
-        entities: [],
-        synchronize: true,
+        entities: [Catalogo, CatalogoDetalle, Usuario, Catedratico, Estudiante, Curso, CursoAsignado],
+        synchronize: false,
       }),
     }),
   ],
