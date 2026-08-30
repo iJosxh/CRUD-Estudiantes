@@ -39,10 +39,21 @@ export class EstudiantesService {
       idUsuario: createEstudianteDto.idUsuario,
     } as Usuario;
 
+    // Guardamos el estudiante
     const estudianteGuardado =
       await this.estudianteRepository.save(estudiante);
 
-    return estudianteGuardado;
+    // Lo buscamos nuevamente con sus relaciones
+    return await this.estudianteRepository.findOne({
+      where: {
+        idEstudiante: estudianteGuardado.idEstudiante,
+      },
+      relations: {
+        nivel: true,
+        estado: true,
+        usuario: true,
+      },
+    });
   }
 
   // =========================

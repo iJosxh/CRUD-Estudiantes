@@ -39,7 +39,20 @@ export class CursosService {
       idCatedratico: createCursoDto.idCatedratico,
     } as Catedratico;
 
-    return await this.cursoRepository.save(curso);
+    const cursoGuardado = await this.cursoRepository.save(curso);
+
+    return await this.cursoRepository.findOne({
+        where: {
+            idCurso: cursoGuardado.idCurso,
+        },
+        relations: {
+            nivel: true,
+            grado: true,
+            carrera: true,
+            estado: true,
+            catedratico: true,
+        },
+    });
   }
 
   async findAll() {
