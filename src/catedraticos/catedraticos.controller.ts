@@ -8,7 +8,11 @@ import {
 import { CatedraticosService } from './catedraticos.service.js';
 import { CreateCatedraticoDto } from './dto/create-catedratico.dto.js';
 
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+
 @Controller('catedraticos')
+@UseGuards(JwtAuthGuard)
 export class CatedraticosController {
   constructor(
     private readonly catedraticosService: CatedraticosService,

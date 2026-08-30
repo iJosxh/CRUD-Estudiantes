@@ -9,7 +9,11 @@ import {
 import { AsignacionesService } from './asignaciones.service.js';
 import { CreateAsignacionDto } from './dto/create-asignacion.dto.js';
 
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+
 @Controller('asignaciones')
+@UseGuards(JwtAuthGuard)
 export class AsignacionesController {
   constructor(
     private readonly asignacionesService: AsignacionesService,
