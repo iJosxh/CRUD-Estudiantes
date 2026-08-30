@@ -25,7 +25,27 @@ export class AsignacionesService {
       idCurso: createAsignacionDto.idCurso,
     } as Curso;
 
-    return await this.asignacionRepository.save(asignacion);
+    const asignacionGuardada =
+        await this.asignacionRepository.save(asignacion);
+
+        return await this.asignacionRepository.findOne({
+        where: {
+            idAsignacion: asignacionGuardada.idAsignacion,
+        },
+        relations: {
+            estudiante: {
+            nivel: true,
+            estado: true,
+            },
+            curso: {
+            nivel: true,
+            grado: true,
+            carrera: true,
+            estado: true,
+            catedratico: true,
+            },
+        },
+    });
   }
 
   async findByEstudiante(idEstudiante: number) {

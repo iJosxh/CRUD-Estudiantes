@@ -7,7 +7,10 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 import { EstudiantesService } from './estudiantes.service.js';
 
@@ -16,6 +19,7 @@ import { CreateEstudianteDto } from './dto/create-estudiante.dto.js';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto.js';
 
 @Controller('estudiantes')
+@UseGuards(JwtAuthGuard)
 export class EstudiantesController {
   constructor(
     private readonly estudiantesService: EstudiantesService,

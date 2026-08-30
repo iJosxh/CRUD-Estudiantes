@@ -18,6 +18,8 @@ import { EstudiantesModule } from './estudiantes/estudiantes.module.js';
 import { CatedraticosModule } from './catedraticos/catedraticos.module.js';
 import { CursosModule } from './cursos/cursos.module.js';
 import { AsignacionesModule } from './asignaciones/asignaciones.module.js';
+import { UsuariosModule } from './usuarios/usuarios.module.js';
+import { AuthModule } from './auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -55,7 +57,6 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
           Estudiante,
           Curso,
           CursoAsignado,
-          AsignacionesModule,
         ],
         synchronize: false,
       }),
@@ -65,6 +66,8 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     CatedraticosModule,
     CursosModule,
     AsignacionesModule,
+    UsuariosModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
