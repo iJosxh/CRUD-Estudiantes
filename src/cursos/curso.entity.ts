@@ -19,7 +19,7 @@ export class Curso {
   @PrimaryGeneratedColumn()
   idCurso: number;
 
-  @Column('varchar', { length: 10 })
+  @Column('varchar', { length: 100 })
   nombreCurso: string;
 
   @ManyToOne(
