@@ -17,6 +17,7 @@ import { CursoAsignado } from './asignaciones/curso-asignado.entity.js';
 import { EstudiantesModule } from './estudiantes/estudiantes.module.js';
 import { CatedraticosModule } from './catedraticos/catedraticos.module.js';
 import { CursosModule } from './cursos/cursos.module.js';
+import { AsignacionesModule } from './asignaciones/asignaciones.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -54,6 +55,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
           Estudiante,
           Curso,
           CursoAsignado,
+          AsignacionesModule,
         ],
         synchronize: false,
       }),
@@ -62,6 +64,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     EstudiantesModule,
     CatedraticosModule,
     CursosModule,
+    AsignacionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
