@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -11,44 +15,75 @@ import { Curso } from '../cursos/curso.entity.js';
 export class AsignacionesService {
   constructor(
     @InjectRepository(CursoAsignado)
-    private readonly asignacionRepository: Repository<CursoAsignado>,
+    private readonly asignacionRepository:
+      Repository<CursoAsignado>,
   ) {}
 
-  async create(createAsignacionDto: CreateAsignacionDto) {
-    const asignacion = this.asignacionRepository.create();
+  async create(
+    createAsignacionDto: CreateAsignacionDto,
+  ) {
+    const asignacionExistente =
+      await this.asignacionRepository.findOne({
+        where: {
+          estudiante: {
+            idEstudiante:
+              createAsignacionDto.idEstudiante,
+          },
+          curso: {
+            idCurso:
+              createAsignacionDto.idCurso,
+          },
+        },
+      });
+
+    if (asignacionExistente) {
+      throw new ConflictException(
+        'El curso ya está asignado a este estudiante',
+      );
+    }
+
+    const asignacion =
+      this.asignacionRepository.create();
 
     asignacion.estudiante = {
-      idEstudiante: createAsignacionDto.idEstudiante,
+      idEstudiante:
+        createAsignacionDto.idEstudiante,
     } as Estudiante;
 
     asignacion.curso = {
-      idCurso: createAsignacionDto.idCurso,
+      idCurso:
+        createAsignacionDto.idCurso,
     } as Curso;
 
     const asignacionGuardada =
-        await this.asignacionRepository.save(asignacion);
+      await this.asignacionRepository.save(
+        asignacion,
+      );
 
-        return await this.asignacionRepository.findOne({
-        where: {
-            idAsignacion: asignacionGuardada.idAsignacion,
+    return await this.asignacionRepository.findOne({
+      where: {
+        idAsignacion:
+          asignacionGuardada.idAsignacion,
+      },
+      relations: {
+        estudiante: {
+          nivel: true,
+          estado: true,
         },
-        relations: {
-            estudiante: {
-            nivel: true,
-            estado: true,
-            },
-            curso: {
-            nivel: true,
-            grado: true,
-            carrera: true,
-            estado: true,
-            catedratico: true,
-            },
+        curso: {
+          nivel: true,
+          grado: true,
+          carrera: true,
+          estado: true,
+          catedratico: true,
         },
+      },
     });
   }
 
-  async findByEstudiante(idEstudiante: number) {
+  async findByEstudiante(
+    idEstudiante: number,
+  ) {
     return await this.asignacionRepository.find({
       where: {
         estudiante: {
@@ -70,21 +105,45 @@ export class AsignacionesService {
 
   async findAll() {
     return await this.asignacionRepository.find({
-        relations: {
+      relations: {
         estudiante: {
-            nivel: true,
-            estado: true,
+          nivel: true,
+          estado: true,
         },
         curso: {
-            nivel: true,
-            grado: true,
-            carrera: true,
-            estado: true,
-            catedratico: true,
+          nivel: true,
+          grado: true,
+          carrera: true,
+          estado: true,
+          catedratico: true,
         },
-        },
+      },
     });
   }
 
-  
+  async findMisCursos(idUsuario: number) {
+    return await this.asignacionRepository.find({
+      where: {
+        estudiante: {
+          usuario: {
+            idUsuario,
+          },
+        },
+      },
+
+      relations: {
+        estudiante: {
+          usuario: true,
+        },
+
+        curso: {
+          nivel: true,
+          grado: true,
+          carrera: true,
+          estado: true,
+          catedratico: true,
+        },
+      },
+    });
+  }
 }

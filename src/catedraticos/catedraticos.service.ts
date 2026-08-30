@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -10,20 +14,58 @@ import { CatalogoDetalle } from '../catalogos/entities/catalogo_detalle.entity.j
 export class CatedraticosService {
   constructor(
     @InjectRepository(Catedratico)
-    private readonly catedraticoRepository: Repository<Catedratico>,
+    private readonly catedraticoRepository:
+      Repository<Catedratico>,
+
+    @InjectRepository(CatalogoDetalle)
+    private readonly catalogoDetalleRepository:
+      Repository<CatalogoDetalle>,
   ) {}
 
-  async create(createCatedraticoDto: CreateCatedraticoDto) {
-    const catedratico = this.catedraticoRepository.create({
-      nombre: createCatedraticoDto.nombre,
-      apellido: createCatedraticoDto.apellido,
+  async create(
+    createCatedraticoDto: CreateCatedraticoDto,
+  ) {
+
+    const estado =
+      await this.catalogoDetalleRepository.findOne({
+        where: {
+          idCatalogoDetalle:
+            createCatedraticoDto.idEstado,
+        },
+      });
+
+    if (!estado) {
+      throw new NotFoundException(
+        `No existe el estado con id ${createCatedraticoDto.idEstado}`,
+      );
+    }
+
+    const catedratico =
+      this.catedraticoRepository.create({
+        nombre:
+          createCatedraticoDto.nombre,
+
+        apellido:
+          createCatedraticoDto.apellido,
+      });
+
+    catedratico.estado = estado;
+
+    const catedraticoGuardado =
+      await this.catedraticoRepository.save(
+        catedratico,
+      );
+
+    return await this.catedraticoRepository.findOne({
+      where: {
+        idCatedratico:
+          catedraticoGuardado.idCatedratico,
+      },
+
+      relations: {
+        estado: true,
+      },
     });
-
-    catedratico.estado = {
-      idCatalogoDetalle: createCatedraticoDto.idEstado,
-    } as CatalogoDetalle;
-
-    return await this.catedraticoRepository.save(catedratico);
   }
 
   async findAll() {

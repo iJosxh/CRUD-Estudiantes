@@ -16,10 +16,6 @@ export class EstudiantesService {
     private readonly estudianteRepository: Repository<Estudiante>,
   ) {}
 
-  // =========================
-  // CREAR
-  // =========================
-
   async create(createEstudianteDto: CreateEstudianteDto) {
     const estudiante = this.estudianteRepository.create({
       nombre: createEstudianteDto.nombre,
@@ -39,11 +35,9 @@ export class EstudiantesService {
       idUsuario: createEstudianteDto.idUsuario,
     } as Usuario;
 
-    // Guardamos el estudiante
     const estudianteGuardado =
       await this.estudianteRepository.save(estudiante);
 
-    // Lo buscamos nuevamente con sus relaciones
     return await this.estudianteRepository.findOne({
       where: {
         idEstudiante: estudianteGuardado.idEstudiante,
@@ -55,10 +49,6 @@ export class EstudiantesService {
       },
     });
   }
-
-  // =========================
-  // LISTAR TODOS
-  // =========================
 
   async findAll() {
     const estudiantes = await this.estudianteRepository.find({
@@ -83,10 +73,6 @@ export class EstudiantesService {
     );
   }
 
-  // =========================
-  // BUSCAR POR ID
-  // =========================
-
   async findOne(id: number) {
     const estudiante = await this.estudianteRepository.findOne({
       where: {
@@ -96,48 +82,24 @@ export class EstudiantesService {
         nivel: true,
         estado: true,
         usuario: true,
-        estudianteAsignado: {
-          curso: {
-            nivel: true,
-            grado: true,
-            carrera: true,
-            estado: true,
-            catedratico: true,
-          },
-        },
+        estudianteAsignado: true,
       },
     });
 
     if (!estudiante) {
       throw new NotFoundException(
-        `No existe un estudiante con el ID ${id}`,
+        `No existe el estudiante con id ${id}`,
       );
     }
 
-    return this.formatearEstudiante(estudiante);
+    return estudiante;
   }
-
-  // =========================
-  // ACTUALIZAR
-  // =========================
 
   async update(
     id: number,
     updateEstudianteDto: UpdateEstudianteDto,
   ) {
-    const estudiante = await this.estudianteRepository.findOne({
-      where: {
-        idEstudiante: id,
-      },
-    });
-
-    if (!estudiante) {
-      throw new NotFoundException(
-        `No existe un estudiante con el ID ${id}`,
-      );
-    }
-
-    // Datos simples
+    const estudiante = await this.findOne(id);
 
     if (updateEstudianteDto.nombre !== undefined) {
       estudiante.nombre = updateEstudianteDto.nombre;
@@ -151,23 +113,17 @@ export class EstudiantesService {
       estudiante.seccion = updateEstudianteDto.seccion;
     }
 
-    // Nivel
-
     if (updateEstudianteDto.idNivel !== undefined) {
       estudiante.nivel = {
         idCatalogoDetalle: updateEstudianteDto.idNivel,
       } as CatalogoDetalle;
     }
 
-    // Estado
-
     if (updateEstudianteDto.idEstado !== undefined) {
       estudiante.estado = {
         idCatalogoDetalle: updateEstudianteDto.idEstado,
       } as CatalogoDetalle;
     }
-
-    // Usuario
 
     if (updateEstudianteDto.idUsuario !== undefined) {
       estudiante.usuario = {
@@ -180,33 +136,16 @@ export class EstudiantesService {
     return this.findOne(id);
   }
 
-  // =========================
-  // ELIMINAR
-  // =========================
-
   async remove(id: number) {
-    const estudiante = await this.estudianteRepository.findOne({
-      where: {
-        idEstudiante: id,
-      },
-    });
-
-    if (!estudiante) {
-      throw new NotFoundException(
-        `No existe un estudiante con el ID ${id}`,
-      );
-    }
+    const estudiante = await this.findOne(id);
 
     await this.estudianteRepository.remove(estudiante);
 
     return {
-      message: `Estudiante con ID ${id} eliminado correctamente`,
+      idEstudiante: id,
+      message: 'Estudiante eliminado correctamente',
     };
   }
-
-  // =========================
-  // FORMATEAR RESPUESTA
-  // =========================
 
   private formatearEstudiante(estudiante: Estudiante) {
     return {
@@ -233,15 +172,10 @@ export class EstudiantesService {
       cursosAsignados: estudiante.estudianteAsignado
         ? estudiante.estudianteAsignado.map((asignacion) => ({
             idAsignacion: asignacion.idAsignacion,
-
             idCurso: asignacion.curso?.idCurso,
-
             nombreCurso: asignacion.curso?.nombreCurso,
-
             nivel: asignacion.curso?.nivel?.nombre,
-
             grado: asignacion.curso?.grado?.nombre,
-
             carrera: asignacion.curso?.carrera?.nombre,
 
             catedratico: asignacion.curso?.catedratico

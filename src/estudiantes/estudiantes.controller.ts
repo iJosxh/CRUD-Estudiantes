@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { Roles } from '../auth/decorators/roles.decorator.js';
 
 import { EstudiantesService } from './estudiantes.service.js';
 
@@ -19,7 +21,7 @@ import { CreateEstudianteDto } from './dto/create-estudiante.dto.js';
 import { UpdateEstudianteDto } from './dto/update-estudiante.dto.js';
 
 @Controller('estudiantes')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class EstudiantesController {
   constructor(
     private readonly estudiantesService: EstudiantesService,
@@ -30,6 +32,7 @@ export class EstudiantesController {
   // =========================
 
   @Post()
+  @Roles('Administrador')
   create(
     @Body() createEstudianteDto: CreateEstudianteDto,
   ) {
@@ -43,6 +46,7 @@ export class EstudiantesController {
   // =========================
 
   @Get()
+  @Roles('Administrador')
   findAll() {
     return this.estudiantesService.findAll();
   }
@@ -63,6 +67,7 @@ export class EstudiantesController {
   // =========================
 
   @Patch(':id')
+  @Roles('Administrador')
   update(
     @Param('id', ParseIntPipe) id: number,
 
@@ -80,6 +85,7 @@ export class EstudiantesController {
   // =========================
 
   @Delete(':id')
+  @Roles('Administrador')
   remove(
     @Param('id', ParseIntPipe) id: number,
   ) {
