@@ -15,7 +15,7 @@ import { Curso } from '../../cursos/curso.entity.js';
 
 import type { Relation } from 'typeorm';
 
-@Entity()
+@Entity('CatalogoDetalle')
 export class CatalogoDetalle {
   @PrimaryGeneratedColumn()
   idCatalogoDetalle: number;

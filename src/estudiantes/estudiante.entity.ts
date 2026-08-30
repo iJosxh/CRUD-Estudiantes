@@ -18,6 +18,9 @@ export class Estudiante{
     @Column('varchar', {length: 50})
     apellido: string
 
+    @Column('varchar', {length: 25})
+    seccion: string
+
     @ManyToOne(() => CatalogoDetalleEntity, (catalogoDetalle) => catalogoDetalle.nivelEstudiantes,)
     @JoinColumn({name: 'idNivel'})
     nivel: Relation<CatalogoDetalle>;
@@ -27,7 +30,7 @@ export class Estudiante{
     estado: Relation<CatalogoDetalle>;
 
     @OneToOne(() => UsuarioEntity, (usuario) => usuario.estudiante)
-    @JoinColumn()
+    @JoinColumn({ name: 'idUsuario' })
     usuario: Relation<Usuario>;
 
     @OneToMany(() => CursoAsignado, (cursoAsignado) => cursoAsignado.estudiante,)

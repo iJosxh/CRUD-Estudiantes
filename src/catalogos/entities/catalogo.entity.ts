@@ -6,7 +6,7 @@ import {
 } from 'typeorm';
 import { CatalogoDetalle } from './catalogo_detalle.entity.js';
 
-@Entity()
+@Entity('Catalogo')
 export class Catalogo {
   @PrimaryGeneratedColumn()
   idCatalogo: number;
