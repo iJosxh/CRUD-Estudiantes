@@ -13,7 +13,12 @@ import { Usuario } from '../usuarios/usuario.entity.js';
 export class EstudiantesService {
   constructor(
     @InjectRepository(Estudiante)
-    private readonly estudianteRepository: Repository<Estudiante>,
+    private readonly estudianteRepository:
+      Repository<Estudiante>,
+
+    @InjectRepository(CatalogoDetalle)
+    private readonly catalogoDetalleRepository:
+      Repository<CatalogoDetalle>,
   ) {}
 
   async create(createEstudianteDto: CreateEstudianteDto) {
@@ -133,17 +138,47 @@ export class EstudiantesService {
 
     await this.estudianteRepository.save(estudiante);
 
-    return this.findOne(id);
+    return {
+      idEstudiante: estudiante.idEstudiante,
+      nombre: estudiante.nombre,
+    };
   }
 
   async remove(id: number) {
-    const estudiante = await this.findOne(id);
+    const estudiante =
+      await this.estudianteRepository.findOne({
+        where: {
+          idEstudiante: id,
+        },
+      });
 
-    await this.estudianteRepository.remove(estudiante);
+    if (!estudiante) {
+      throw new NotFoundException(
+        `No existe un estudiante con el ID ${id}`,
+      );
+    }
+
+    const estadoInactivo =
+      await this.catalogoDetalleRepository.findOne({
+        where: {
+          nombre: 'Inactivo',
+        },
+      });
+
+    if (!estadoInactivo) {
+      throw new NotFoundException(
+        'No se encontró el estado Inactivo',
+      );
+    }
+
+    estudiante.estado = estadoInactivo;
+
+    await this.estudianteRepository.save(
+      estudiante,
+    );
 
     return {
       idEstudiante: id,
-      message: 'Estudiante eliminado correctamente',
     };
   }
 
