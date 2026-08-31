@@ -1,114 +1,488 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# CRUD Estudiantes - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST desarrollada con **NestJS, TypeScript, TypeORM y SQL Server** para la gestión de estudiantes, usuarios, cursos, catedráticos y asignaciones académicas.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+El backend implementa autenticación mediante **JWT**, autorización basada en roles y diferentes endpoints para la administración de la información utilizada por el frontend desarrollado en Angular.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologías utilizadas
 
-## Project setup
+- NestJS
+- TypeScript
+- TypeORM
+- SQL Server
+- JSON Web Token (JWT)
+- pnpm
+- Git / GitHub
 
-```bash
-$ npm install
-```
+---
 
-## Compile and run the project
+## Requisitos previos
 
-```bash
-# development
-$ npm run start
+Antes de ejecutar el proyecto es necesario tener instalado:
 
-# watch mode
-$ npm run start:dev
+- Node.js
+- pnpm
+- SQL Server
+- Git
 
-# production mode
-$ npm run start:prod
-```
+Opcionalmente, se puede utilizar alguna herramienta para administrar SQL Server:
 
-## Run tests
+- SQL Server Management Studio (SSMS)
+- DBeaver
+
+---
+
+# Instalación y ejecución
+
+## 1. Clonar el repositorio
+
+Clonar el proyecto desde GitHub:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/iJosxh/CRUD-Estudiantes.git
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Ingresar a la carpeta del proyecto:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cd CRUD-Estudiantes-Backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Luego a:
 
-## Observability
+```bash
+cd backend
+```
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+---
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+## 2. Instalar las dependencias
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+El proyecto utiliza **pnpm** como administrador de paquetes.
 
-## Resources
+Ejecutar:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+pnpm install
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Esto instalará todas las dependencias definidas en `package.json`.
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Configuración de variables de entorno
 
-## Stay in touch
+El repositorio contiene un archivo:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```text
+.env.example
+```
 
-## License
+Este archivo sirve como plantilla para configurar las variables de entorno necesarias para ejecutar el proyecto.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Después de clonar el repositorio, se debe crear una copia de `.env.example` y nombrarla:
+
+```text
+.env
+```
+
+También se puede copiar y renombrar manualmente.
+
+La estructura del archivo es similar a:
+
+```env
+DB_HOST=localhost
+DB_PORT=1433
+DB_USERNAME=TU_USUARIO
+DB_PASSWORD=TU_PASSWORD
+DB_DATABASE=crudestudiantes
+
+JWT_SECRET=TU_CLAVE_SECRETA
+```
+
+Se deben reemplazar los valores de ejemplo con la configuración correspondiente de SQL Server.
+
+---
+
+# Configuración de la base de datos
+
+El proyecto utiliza **Microsoft SQL Server**.
+
+Dentro del repositorio se encuentra el archivo:
+
+```text
+database/crud_estudiantes.sql
+```
+
+Este script contiene la creación y población inicial de la base de datos.
+
+
+# Ejecutar el backend
+
+Una vez instaladas las dependencias, configurada la base de datos y creado el archivo `.env`, ejecutar:
+
+```bash
+pnpm run start:dev
+```
+
+NestJS iniciará el servidor en modo desarrollo.
+
+Por defecto, la API estará disponible en:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# Endpoints de la API
+
+## Autenticación
+
+### Iniciar sesión
+
+```http
+POST /auth/login
+```
+
+Permite autenticar un usuario mediante su nombre de usuario y contraseña.
+
+---
+
+# Usuarios
+
+## Crear usuario
+
+```http
+POST /usuarios
+```
+
+Permite registrar un nuevo usuario en el sistema.
+
+---
+
+## Listar usuarios
+
+```http
+GET /usuarios
+```
+
+Obtiene los usuarios registrados en el sistema.
+
+---
+
+## Usuarios disponibles para estudiantes
+
+```http
+GET /usuarios/disponibles-estudiantes
+```
+
+Obtiene únicamente los usuarios que pueden ser asociados a un nuevo estudiante.
+
+El endpoint filtra usuarios que:
+
+- Tienen rol `Estudiante`.
+- Se encuentran en estado `Activo`.
+- Todavía no tienen un estudiante asociado.
+
+---
+
+# Estudiantes
+
+## Crear estudiante
+
+```http
+POST /estudiantes
+```
+
+Permite registrar un nuevo estudiante.
+
+---
+
+## Listar estudiantes
+
+```http
+GET /estudiantes
+```
+
+Obtiene la lista de estudiantes junto con la información relacionada necesaria para el sistema.
+
+---
+
+## Obtener estudiante por ID
+
+```http
+GET /estudiantes/:id
+```
+
+Obtiene la información correspondiente al estudiante indicado.
+
+---
+
+## Actualizar estudiante
+
+```http
+PATCH /estudiantes/:id
+```
+
+Permite modificar la información de un estudiante existente.
+
+---
+
+## Eliminar estudiante
+
+```http
+DELETE /estudiantes/:id
+```
+
+La eliminación de estudiantes se realiza mediante **borrado lógico**.
+
+---
+
+# Catedráticos
+
+## Crear catedrático
+
+```http
+POST /catedraticos
+```
+
+Permite registrar un nuevo catedrático.
+
+---
+
+## Listar catedráticos
+
+```http
+GET /catedraticos
+```
+
+Obtiene los catedráticos registrados.
+
+---
+
+# Cursos
+
+## Crear curso
+
+```http
+POST /cursos
+```
+
+Permite registrar un nuevo curso.
+
+---
+
+## Listar cursos
+
+```http
+GET /cursos
+```
+
+Obtiene la lista de cursos registrados junto con sus relaciones correspondientes.
+
+---
+
+# Asignaciones de cursos
+
+## Asignar curso a estudiante
+
+```http
+POST /asignaciones
+```
+
+Permite asignar un curso a un estudiante.
+
+---
+
+## Listar asignaciones
+
+```http
+GET /asignaciones
+```
+
+Obtiene las asignaciones de cursos registradas.
+
+---
+
+## Consultar cursos del estudiante autenticado
+
+```http
+GET /asignaciones/mis-cursos
+```
+
+Permite que un usuario con rol `Estudiante` consulte los cursos que tiene asignados.
+
+---
+
+# Catálogos
+
+Los catálogos almacenados en SQL Server son utilizados para evitar valores escritos directamente en el código y para cargar las opciones de los formularios del frontend.
+
+## Niveles
+
+```http
+GET /catalogos/niveles
+```
+
+---
+
+## Estados
+
+```http
+GET /catalogos/estados
+```
+
+Obtiene los estados disponibles, como:
+
+- Activo
+- Inactivo
+
+---
+
+## Grados
+
+```http
+GET /catalogos/grados
+```
+
+Obtiene los grados registrados en el catálogo.
+
+---
+
+## Carreras
+
+```http
+GET /catalogos/carreras
+```
+
+Obtiene las carreras registradas en el catálogo.
+
+---
+
+## Roles
+
+```http
+GET /catalogos/roles
+```
+
+Obtiene los roles disponibles en el sistema.
+
+Por ejemplo:
+
+- Administrador
+- Estudiante
+
+Los endpoints de catálogos son utilizados principalmente por el frontend para cargar elementos `<select>`. El frontend muestra el `nombre` al usuario y utiliza internamente `idCatalogoDetalle` para enviar la información al backend.
+
+---
+
+# Evidencias y ejemplos de uso
+
+A continuación se presentan capturas de las pruebas realizadas a los diferentes endpoints de la API utilizando **Postman**.
+
+## Estudiantes
+
+### Crear estudiante - POST
+
+![POST Crear Estudiante](docs/POST-Estudiante.png)
+
+### Listar estudiantes - GET
+
+![GET Estudiantes](docs/GET-Estudiantes.png)
+
+### Obtener estudiante por ID - GET
+
+![GET Estudiante por ID](docs/GET-Estudiantes-Por-ID.png)
+
+### Actualizar estudiante - PATCH
+
+![PATCH Actualizar Estudiante](docs/PATCH-Actualizar-Estudiante.png)
+
+---
+
+## Cursos
+
+### Crear curso - POST
+
+![POST Crear Curso](docs/POST-Curso.png)
+
+### Listar cursos - GET
+
+![GET Cursos](docs/GET-Cursos.png)
+
+---
+
+## Catedráticos
+
+### Crear catedrático - POST
+
+![POST Crear Catedrático](docs/POST-Catedratico.png)
+
+### Listar catedráticos - GET
+
+![GET Catedráticos](docs/GET-Catedraticos.png)
+
+---
+
+## Asignaciones
+
+### Asignar curso a estudiante - POST
+
+![POST Asignación](docs/POST-Asignacion.png)
+
+### Listar asignaciones - GET
+
+![GET Asignaciones](docs/GET-Asignaciones.png)
+
+### Consultar cursos asignados a un estudiante - GET
+
+![GET Asignación de un Estudiante](docs/GET-Asignacion-De-Un-Estudiante.png)
+
+---
+
+## Usuarios
+
+### Listar usuarios - GET
+
+![GET Usuarios](docs/GET-Usuarios.png)
+
+### Listar usuarios disponibles para estudiantes - GET
+
+![GET Usuarios Disponibles](docs/GET-Usuarios-Disponibles.png)
+
+---
+
+## Catálogos
+
+Los siguientes endpoints permiten consultar la información de los catálogos utilizada por el sistema y por los elementos `select` del frontend.
+
+### Niveles - GET
+
+![GET Niveles](docs/GET-Niveles.png)
+
+### Estados - GET
+
+![GET Estados](docs/GET-Estados.png)
+
+### Grados - GET
+
+![GET Grados](docs/GET-Grados.png)
+
+### Carreras - GET
+
+![GET Carreras](docs/GET-Carreras.png)
+
+### Roles - GET
+
+![GET Roles](docs/GET-Roles.png)
+
+---
+
+# Autor
+
+```text
+https://github.com/iJosxh
+```
