@@ -20,6 +20,7 @@ import { CursosModule } from './cursos/cursos.module.js';
 import { AsignacionesModule } from './asignaciones/asignaciones.module.js';
 import { UsuariosModule } from './usuarios/usuarios.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { CatalogosModule } from './catalogos/catalogos.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -68,6 +69,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AsignacionesModule,
     UsuariosModule,
     AuthModule,
+    CatalogosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

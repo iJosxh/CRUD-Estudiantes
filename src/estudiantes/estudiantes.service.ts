@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -22,6 +22,25 @@ export class EstudiantesService {
   ) {}
 
   async create(createEstudianteDto: CreateEstudianteDto) {
+
+    const estudianteExistente =
+      await this.estudianteRepository.findOne({
+        where: {
+          usuario: {
+            idUsuario: createEstudianteDto.idUsuario,
+          },
+        },
+        relations: {
+          usuario: true,
+        },
+      });
+
+    if (estudianteExistente) {
+      throw new ConflictException(
+        'Este usuario ya tiene un estudiante asociado',
+      );
+    }
+
     const estudiante = this.estudianteRepository.create({
       nombre: createEstudianteDto.nombre,
       apellido: createEstudianteDto.apellido,

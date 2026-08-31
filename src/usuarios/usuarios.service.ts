@@ -115,4 +115,26 @@ export class UsuariosService {
         usuario.estado,
     }));
   }
+
+  async findDisponiblesParaEstudiante() {
+    const usuarios = await this.usuarioRepository.find({
+      relations: {
+        rol: true,
+        estado: true,
+        estudiante: true,
+      },
+    });
+
+    const usuariosDisponibles = usuarios.filter(
+      (usuario) =>
+        usuario.rol?.nombre === 'Estudiante' &&
+        usuario.estado?.nombre === 'Activo' &&
+        !usuario.estudiante,
+    );
+
+    return usuariosDisponibles.map((usuario) => ({
+      idUsuario: usuario.idUsuario,
+      username: usuario.username,
+    }));
+  }
 }
